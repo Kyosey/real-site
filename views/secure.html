@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Changer Mot de Passe (Sécurisé)</title>
+</head>
+<body>
+    <h1>🟢 Modifier le mot de passe (Avec protection CSRF)</h1>
+    
+    <p>Mot de passe actuel : <strong id="current-password">Chargement...</strong></p>
+
+    <form action="/secure" method="post">
+        <input type="hidden" id="csrf_token" name="csrf_token" value="">
+        <input type="text" name="new_password" placeholder="Nouveau mot de passe">
+        <input type="submit" value="Changer">
+    </form>
+
+    <script>
+        fetch('/current-password')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('current-password').innerText = data.password;
+            });
+
+        fetch('/secure')  // Récupération du token CSRF
+            .then(response => response.text())
+            .then(html => {
+                const match = html.match(/name="csrf_token" value="(.*?)"/);
+                if (match) document.getElementById('csrf_token').value = match[1];
+            });
+    </script>
+</body>
+</html>

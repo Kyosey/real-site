@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Changer Mot de Passe (Vulnérable)</title>
+</head>
+<body>
+    <h1>🔴 Modifier le mot de passe (Sans protection)</h1>
+    
+    <p>Mot de passe actuel : <strong id="current-password">Chargement...</strong></p>
+
+    <form action="/vulnerable" method="post">
+        <input type="text" name="new_password" placeholder="Nouveau mot de passe">
+        <input type="submit" value="Changer">
+    </form>
+
+    <script>
+        fetch('/current-password')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('current-password').innerText = data.password;
+            });
+    </script>
+</body>
+</html>
